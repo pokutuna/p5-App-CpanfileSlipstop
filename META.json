@@ -1,5 +1,5 @@
 {
-   "abstract" : "It's new $module",
+   "abstract" : "a tool to write installed versions back to cpanfile.",
    "author" : [
       "pokutuna <popopopopokutuna@gmail.com>"
    ],
@@ -42,6 +42,10 @@
       },
       "runtime" : {
          "requires" : {
+            "CPAN::Meta::Requirements" : "0",
+            "Carton" : "0",
+            "Module::CPANfile" : "0",
+            "PPI" : "0",
             "perl" : "5.008001"
          }
       },
@@ -52,6 +56,17 @@
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/pokutuna/p5-App-CpanfileSlipstop/issues"
+      },
+      "homepage" : "https://github.com/pokutuna/p5-App-CpanfileSlipstop",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/pokutuna/p5-App-CpanfileSlipstop.git",
+         "web" : "https://github.com/pokutuna/p5-App-CpanfileSlipstop"
+      }
+   },
    "version" : "0.01",
    "x_authority" : "cpan:POKUTUNA",
    "x_serialization_backend" : "JSON::PP version 2.27300",

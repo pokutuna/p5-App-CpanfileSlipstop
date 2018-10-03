@@ -29,3 +29,6 @@ cover_db/
 MYMETA.*
 
 /App-CpanfileSlipstop-*
+/.build
+!Build/
+!META.json

@@ -1,0 +1,27 @@
+#!perl
+use strict;
+use warnings;
+
+use App::CpanfileSlipstop::CLI;
+
+exit App::CpanfileSlipstop::CLI->new->run(@ARGV);
+
+__END__
+
+=head1 NAME
+
+cpanfile-slipstop - a tool to write installed versions back to cpanfile.
+
+=head1 SYNOPSIS
+
+  TODO
+  > cpanfile-slipstop
+  > hello
+
+=head1 OPTIONS
+
+=head1 SEE ALSO
+
+L<App::CpanfileSlipstop>
+
+=cut

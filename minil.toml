@@ -1,7 +1,6 @@
 name = "App-CpanfileSlipstop"
-# badges = ["travis"]
+badges = ["travis", "coveralls", "metacpan"]
 authority="cpan:POKUTUNA"
 
 module_maker="ModuleBuildTiny"
 static_install = "auto"
-

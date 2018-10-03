@@ -1,10 +1,12 @@
+[![Build Status](https://travis-ci.org/pokutuna/p5-App-CpanfileSlipstop.svg?branch=master)](https://travis-ci.org/pokutuna/p5-App-CpanfileSlipstop) [![Coverage Status](https://img.shields.io/coveralls/pokutuna/p5-App-CpanfileSlipstop/master.svg?style=flat)](https://coveralls.io/r/pokutuna/p5-App-CpanfileSlipstop?branch=master) [![MetaCPAN Release](https://badge.fury.io/pl/App-CpanfileSlipstop.svg)](https://metacpan.org/release/App-CpanfileSlipstop)
 # NAME
 
-App::CpanfileSlipstop - It's new $module
+cpanfile-slipstop - a tool to write installed versions back to cpanfile.
 
 # SYNOPSIS
 
-    use App::CpanfileSlipstop;
+    TODO
+    > cpanfile-slipstop
 
 # DESCRIPTION
 

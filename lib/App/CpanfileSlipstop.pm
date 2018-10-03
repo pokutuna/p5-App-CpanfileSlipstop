@@ -5,8 +5,6 @@ use warnings;
 
 our $VERSION = "0.01";
 
-
-
 1;
 __END__
 
@@ -14,11 +12,12 @@ __END__
 
 =head1 NAME
 
-App::CpanfileSlipstop - It's new $module
+cpanfile-slipstop - a tool to write installed versions back to cpanfile.
 
 =head1 SYNOPSIS
 
-    use App::CpanfileSlipstop;
+  TODO
+  > cpanfile-slipstop
 
 =head1 DESCRIPTION
 
@@ -36,4 +35,3 @@ it under the same terms as Perl itself.
 pokutuna E<lt>popopopopokutuna@gmail.comE<gt>
 
 =cut
-
