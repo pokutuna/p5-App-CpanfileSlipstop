@@ -48,6 +48,8 @@
             "List::Util" : "0",
             "Module::CPANfile" : "0",
             "PPI" : "0",
+            "Pod::Find" : "0",
+            "Pod::Usage" : "0",
             "perl" : "5.008001"
          }
       },

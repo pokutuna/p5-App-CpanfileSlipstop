@@ -3,8 +3,10 @@ use strict;
 use warnings;
 
 use Carton::Snapshot;
+use Getopt::Long qw/:config posix_default no_ignore_case gnu_compat bundling/;
 use Module::CPANfile;
-use Getopt::Long qw/:config posix_default no_ignore_case gnu_compat bundling auto_help/;
+use Pod::Find qw(pod_where);
+use Pod::Usage qw(pod2usage);
 
 use App::CpanfileSlipstop::Resolver;
 use App::CpanfileSlipstop::Writer;
@@ -20,7 +22,9 @@ sub new {
         dry_run   => 0,
         with_core => 0,
         silent    => 0,
+
         remove    => 0,
+        help      => 0,
     }, $class;
 }
 
@@ -29,9 +33,10 @@ sub run {
 
     $self->parse_options(@argv);
 
-    return !$self->{remove}
-        ? $self->cmd_feedback
-        : $self->cmd_remove;
+    return $self->cmd_help   if $self->{help};
+    return $self->cmd_remove if $self->{remove};
+
+    return $self->cmd_feedback;
 }
 
 sub parse_options {
@@ -45,6 +50,7 @@ sub parse_options {
         'with-core'  => \($self->{with_core}),
         'silent'     => \($self->{silent}),
         'remove'     => \($self->{remove}),
+        'help|h'     => \($self->{help}),
     );
 }
 
@@ -89,6 +95,15 @@ sub cmd_remove {
     );
 
     return 0;
+}
+
+sub cmd_help {
+    my ($self) = @_;
+
+    pod2usage(
+        -input   => pod_where({ -inc => 1 }, 'App::CpanfileSlipstop'),
+        -exitval => 0,
+    );
 }
 
 sub versioning_method {
