@@ -9,4 +9,9 @@ perl:
   - "5.22"
   - "5.24"
   - "5.26"
+  - "5.28"
 
+before_install:
+  - cpanm -n Devel::Cover::Report::Coveralls
+after_script:
+  - cover -test -report coveralls
