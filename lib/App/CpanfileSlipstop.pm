@@ -55,7 +55,7 @@ cpanfile-slipstop - write installed module versions back to cpanfile
 
 C<cpanfile-slipstop> is a support tool for more definite and safety version bundling on L<cpanfile> and L<Carton>.
 
-The C<carton install> command only check to satisfy version specifications in cpanfile. The saved versions in cpanfile.snapshot is not referred until you need to install modules. This sometimes causes confusion and version discrepancy by environments. This tool write versions snapshot to cpanfile to fix module versions.
+The C<carton install> command checks only to satisfy version specifications in cpanfile and C<local/>. Even if some module versions are updated in cpanfile.snapshot, the saved versions are not referred until you need to install it. This sometimes causes confusion and version discrepancy between development environment and production. This tool writes versions snapshot to cpanfile to fix module versions.
 
 =head1 SEE ALSO
 

@@ -43,7 +43,7 @@ cpanfile-slipstop - write installed module versions back to cpanfile
 
 `cpanfile-slipstop` is a support tool for more definite and safety version bundling on [cpanfile](https://metacpan.org/pod/cpanfile) and [Carton](https://metacpan.org/pod/Carton).
 
-The `carton install` command only check to satisfy version specifications in cpanfile. The saved versions in cpanfile.snapshot is not referred until you need to install modules. This sometimes causes confusion and version discrepancy by environments. This tool write versions snapshot to cpanfile to fix module versions.
+The `carton install` command checks only to satisfy version specifications in cpanfile and `local/`. Even if some module versions are updated in cpanfile.snapshot, the saved versions are not referred until you need to install it. This sometimes causes confusion and version discrepancy between development environment and production. This tool writes versions snapshot to cpanfile to fix module versions.
 
 # SEE ALSO
 
