@@ -16,8 +16,8 @@ sub new {
 
     # defaults
     bless +{
-        cpanfile  => 'cpanfile',
-        snapshot  => 'cpanfile.snapshot',
+        cpanfile  => './cpanfile',
+        snapshot  => './cpanfile.snapshot',
         stopper   => 'exact', # or minimum, maximmu
         dry_run   => 0,
         with_core => 0,

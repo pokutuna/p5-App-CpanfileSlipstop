@@ -13,16 +13,53 @@ __END__
 
 =head1 NAME
 
-cpanfile-slipstop - a tool to write installed versions back to cpanfile.
+cpanfile-slipstop - write installed module versions back to cpanfile
 
 =head1 SYNOPSIS
 
-  TODO
+  # update moduels & write versions from cpanfile.snapshot to cpanfile
+  > carton update
   > cpanfile-slipstop
+
+  # write module versions as 'minimum'
+  > cpanfile-slipstop --stopper=minimum
+
+  # only see versions to write
+  > cpanfile-slipstop --dry-run
+
+  # remove current version specification from cpanfile
+  > cpanfile-slipstop --remove
+
+=head1 OPTIONS
+
+  --stopper=identifier (default: exact)
+      type of version constraint
+          exact   : '== 1.00'
+          minimum : '1.00' (same as >= 1.00)
+          maximum : '<= 1.00'
+  --dry-run
+      do not save to cpanfile
+  --with-core
+      write core module versions
+  --silent
+      stop to output versions
+  --cpanfile=path (default: ./cpanfile)
+  --snapshot=path (default: ./cpanfile.snapshot)
+      specify cpanfile and cpanfile.snapshot location
+  --remove
+      delete all version specifications from cpanfile
+  -h, --help
+      show this help
 
 =head1 DESCRIPTION
 
-App::CpanfileSlipstop is ...
+C<cpanfile-slipstop> is a support tool for more definite and safety version bundling on L<cpanfile> and L<Carton>.
+
+The C<carton install> command only check to satisfy version specifications in cpanfile. The saved versions in cpanfile.snapshot is not referred until you need to install modules. This sometimes causes confusion and version discrepancy by environments. This tool write versions snapshot to cpanfile to fix module versions.
+
+=head1 SEE ALSO
+
+L<Carton>, L<Module::CPANfile>, L<CPAN::Meta::Requirements>
 
 =head1 LICENSE
 
