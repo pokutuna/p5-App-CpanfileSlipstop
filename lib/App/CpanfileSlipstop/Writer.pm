@@ -47,7 +47,7 @@ sub set_versions {
             $self->insert_version($module, $version_range);
             $logger->({
                 type   => 'insert',
-                module => $module->string,
+                module => $module->literal,
                 before => undef,
                 after  => $version_range,
                 quote  => quote($module),
@@ -60,8 +60,8 @@ sub set_versions {
             $self->replace_version($module, $current_version, $version_range);
             $logger->({
                 type   => 'replace',
-                module => $module->string,
-                before => $current_version->string,
+                module => $module->literal,
+                before => $current_version->literal,
                 after  => $version_range,
                 quote  => quote($module),
             });

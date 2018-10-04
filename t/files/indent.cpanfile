@@ -5,4 +5,4 @@ requires
 
     requires 'Data::Printer';
 
-# requires 'Commented::Out';
+# requires 'JSON::XS';
