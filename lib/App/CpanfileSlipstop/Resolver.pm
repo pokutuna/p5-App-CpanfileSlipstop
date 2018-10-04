@@ -61,7 +61,7 @@ sub ignore_module {
     #       mirror => 'https://cpan.metacpan.org/',
     #       dist   => 'POKUTUNA/Class-Enumemon-0.01.tar.gz';
 
-    my $opts = $self->cpanfile->options_for_module($module);
+    my $opts = $self->cpanfile->options_for_module($module) || {};
     return 1 if $opts->{dist};
     return 1 if $opts->{url};
     return 0;
@@ -72,11 +72,12 @@ sub get_version_range {
 
     my $version_range = $self->reqs->requirements_for_module($module);
 
+    return undef if !$version_range || $version_range eq '0';
+
     # Remove noisy '>= 0'.
     # This causes when setting version by "add_maximum"
     $version_range =~ s/\A>= 0, //;
 
-    return undef if !$version_range || $version_range eq '0';
     return $version_range;
 }
 

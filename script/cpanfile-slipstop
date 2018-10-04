@@ -1,6 +1,7 @@
 #!perl
 use strict;
 use warnings;
+no lib '.';
 
 use App::CpanfileSlipstop::CLI;
 
