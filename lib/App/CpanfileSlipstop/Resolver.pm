@@ -24,13 +24,11 @@ sub read_cpanfile_requirements {
     my ($self) = @_;
 
     for my $phase (qw(configure build runtime test develop)) {
-        for my $type (qw(requires recommends suggests)) {
-            $self->reqs->add_requirements(
-                $self->cpanfile->prereqs->requirements_for($phase, $type)
-            );
-        }
+        $self->reqs->add_requirements(
+            $self->cpanfile->prereqs->requirements_for($phase, 'requires')
+        );
     }
-    # But `carton install` only see 'requires'.
+    # `carton install` only treats 'requires'.
     # https://metacpan.org/source/MIYAGAWA/Carton-v1.0.34/lib/Carton/CPANfile.pm#L38
 
     return;

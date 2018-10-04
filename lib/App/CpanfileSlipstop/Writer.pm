@@ -21,8 +21,7 @@ sub dry_run       { $_[0]->{dry_run} ? 1 : 0 }
 my $statement_finder = sub {
     my (undef, $elem) = @_;
 
-    return $elem->isa('PPI::Statement') &&
-        (first { $elem->schild(0)->content eq $_ } qw(requires recommends suggests)) ? 1 : 0;
+    return $elem->isa('PPI::Statement') && $elem->schild(0)->content eq 'requires';
 };
 
 sub set_versions {
