@@ -21,8 +21,9 @@ subtest simple => sub {
     is $resolver->get_version_range('Data::Printer'), '== 0.40';
     is $resolver->get_version_range('Test::More'), undef;
 
+    # The version of core module is depends on interpreter version. So it's not fiexed.
     $resolver->merge_snapshot_versions('exact_version', 1);
-    is $resolver->get_version_range('Test::More'), '== 1.001014';
+    like $resolver->get_version_range('Test::More'), qr/\A== /;
 };
 
 subtest indent => sub {
@@ -62,7 +63,7 @@ subtest types => sub {
     );
 
     $resolver->read_cpanfile_requirements;
-    $resolver->merge_snapshot_versions('add_minimum', 1);
+    $resolver->merge_snapshot_versions('add_minimum', 0);
 
     is $resolver->get_version_range('DateTime'), '1.50';
     is $resolver->get_version_range('JSON::XS'), undef;
@@ -82,7 +83,7 @@ subtest versioned => sub {
     is $resolver->get_version_range('Data::Printer'), '== 0.38';
     is $resolver->get_version_range('Test::More'), '> 0.9, < 1.0, != 0.98';
 
-    $resolver->merge_snapshot_versions('add_minimum', 1);
+    $resolver->merge_snapshot_versions('add_minimum', 0);
     is $resolver->get_version_range('DateTime'), '1.50';             # inserted installed version as minimum
     is $resolver->get_version_range('JSON::XS'), '3.04';             # updated installed version as minimum
     is $resolver->get_version_range('Data::Printer'), '== 0.38';     # not changed
