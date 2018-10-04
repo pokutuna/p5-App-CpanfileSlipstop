@@ -44,6 +44,8 @@
          "requires" : {
             "CPAN::Meta::Requirements" : "0",
             "Carton" : "0",
+            "Getopt::Long" : "0",
+            "List::Util" : "0",
             "Module::CPANfile" : "0",
             "PPI" : "0",
             "perl" : "5.008001"

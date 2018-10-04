@@ -32,3 +32,5 @@ MYMETA.*
 /.build
 !Build/
 !META.json
+
+cpanfile.snapshot
