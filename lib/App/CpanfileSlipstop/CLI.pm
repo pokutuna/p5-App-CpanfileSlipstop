@@ -14,13 +14,13 @@ sub new {
 
     # defaults
     bless +{
-        command   => 'feedback',
         cpanfile  => 'cpanfile',
         snapshot  => 'cpanfile.snapshot',
         stopper   => 'exact', # or minimum, maximmu
         dry_run   => 0,
         with_core => 0,
         silent    => 0,
+        remove    => 0,
     }, $class;
 }
 
@@ -29,7 +29,9 @@ sub run {
 
     $self->parse_options(@argv);
 
-    return $self->cmd_feedback;
+    return !$self->{remove}
+        ? $self->cmd_feedback
+        : $self->cmd_remove;
 }
 
 sub parse_options {
@@ -42,6 +44,7 @@ sub parse_options {
         'dry-run'    => \($self->{dry_run}),
         'with-core'  => \($self->{with_core}),
         'silent'     => \($self->{silent}),
+        'remove'     => \($self->{remove}),
     );
 }
 
@@ -66,6 +69,22 @@ sub cmd_feedback {
     );
     $writer->set_versions(
         sub { $resolver->get_version_range($_[0]) },
+        sub { !$self->{silent} && $self->log(@_) },
+    );
+
+    return 0;
+}
+
+sub cmd_remove {
+    my ($self) = @_;
+
+    my $cpanfile = Module::CPANfile->load($self->{cpanfile});
+
+    my $writer = App::CpanfileSlipstop::Writer->new(
+        cpanfile_path => $self->{cpanfile},
+        dry_run       => $self->{dry_run},
+    );
+    $writer->remove_versions(
         sub { !$self->{silent} && $self->log(@_) },
     );
 

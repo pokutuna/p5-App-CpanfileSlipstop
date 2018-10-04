@@ -18,17 +18,18 @@ sub new {
 sub cpanfile_path { $_[0]->{cpanfile_path}   }
 sub dry_run       { $_[0]->{dry_run} ? 1 : 0 }
 
+my $statement_finder = sub {
+    my (undef, $elem) = @_;
+
+    return $elem->isa('PPI::Statement') &&
+        (first { $elem->schild(0)->content eq $_ } qw(requires recommends suggests)) ? 1 : 0;
+};
+
 sub set_versions {
     my ($self, $version_getter, $logger) = @_;
 
     my $doc = PPI::Document->new($self->cpanfile_path);
-
-    my $requirements = $doc->find(sub {
-        my (undef, $elem) = @_;
-
-        return $elem->isa('PPI::Statement') &&
-            (first { $elem->schild(0)->content eq $_ } qw(requires recommends suggests)) ? 1 : 0;
-    });
+    my $requirements = $doc->find($statement_finder);
 
     for my $statement (@$requirements) {
         my ($type, $module, @args) = $statement->schildren;
@@ -36,7 +37,10 @@ sub set_versions {
         my $version_range = $version_getter->($module->string);
         next unless $version_range;
 
-        my @words = grep { !($_->isa('PPI::Token::Operator') || $_->content eq ';') } @args;
+        my @words = grep {
+            !($_->isa('PPI::Token::Operator') || $_->content eq ';');
+        } @args;
+
         if (@words % 2 == 0) {
             # insert VERSION
             # - requires MODULE;
@@ -65,12 +69,59 @@ sub set_versions {
         }
     }
 
-    unless ($self->dry_run) {
-        open my $out, ">", $self->cpanfile_path
-            or die sprintf('%s, %s', $self->cpanfile_path, $!);
+    $self->writedown_cpanfile($doc);
+}
 
-        print $out $doc->serialize;
+sub remove_versions {
+    my ($self, $logger) = @_;
+
+    my $doc = PPI::Document->new($self->cpanfile_path);
+    my $requirements = $doc->find($statement_finder);
+
+    for my $statement (@$requirements) {
+        my ($type, $module, @args) = $statement->schildren;
+
+        my @words = grep {
+            !($_->isa('PPI::Token::Operator') || $_->content eq ';');
+        } @args;
+
+        if (@words %2 == 1) {
+            my ($op, $version) = @args;
+
+            # collect whitespaces between MODULE and VERSION
+            my $whitespaces = [];
+            my $token = $op->next_sibling;
+            while ($token && $token->isa('PPI::Token::Whitespace')) {
+                push @$whitespaces, $token;
+                $token = $token->next_sibling;
+            }
+
+            $op->remove;
+            $_->remove for @$whitespaces;
+            $version->remove;
+
+            $logger->({
+                type   => 'delete',
+                module => $module->string,
+                before => $version->string,
+                after  => undef,
+                quote  => quote($module),
+            });
+        }
     }
+
+    $self->writedown_cpanfile($doc);
+}
+
+sub writedown_cpanfile {
+    my ($self, $ppi_doc) = @_;
+
+    return if $self->dry_run;
+
+    open my $out, ">", $self->cpanfile_path
+        or die sprintf('%s, %s', $self->cpanfile_path, $!);
+    print $out $ppi_doc->serialize;
+    close $out;
 }
 
 sub insert_version {
