@@ -124,8 +124,8 @@ sub log {
     my $quote = $log->{quote};
     print sprintf "%s: %s -> %s\n",
         $log->{module},
-        $log->{before} ? sprintf("$quote%s$quote", $log->{before}) : '(unspecified)',
-        $log->{after}  ? sprintf("$quote%s$quote", $log->{after})  : '(unspecified)';
+        $log->{before} ? $log->{before} : '(unspecified)',
+        $log->{after}  ? $log->{after}  : '(unspecified)';
 }
 
 1;
