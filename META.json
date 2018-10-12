@@ -45,7 +45,6 @@
             "CPAN::Meta::Requirements" : "0",
             "Carton" : "0",
             "Getopt::Long" : "0",
-            "List::Util" : "0",
             "Module::CPANfile" : "0",
             "PPI" : "0",
             "Pod::Find" : "0",
@@ -55,7 +54,6 @@
       },
       "test" : {
          "requires" : {
-            "Module::Spy" : "0",
             "Path::Class" : "0",
             "Test::More" : "0.98"
          }

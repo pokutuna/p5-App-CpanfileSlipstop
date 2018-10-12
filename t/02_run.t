@@ -4,12 +4,9 @@ use lib '.';
 
 use t::helper;
 use Test::More 0.98;
-use Module::Spy qw(spy_on);
 
 use App::CpanfileSlipstop::Resolver;
 use App::CpanfileSlipstop::Writer;
-
-my $spy = spy_on('App::CpanfileSlipstop::Writer', 'writedown_cpanfile');
 
 sub run_slipstop {
     my ($name, $stopper) = @_;
@@ -25,6 +22,13 @@ sub run_slipstop {
         exact   => 'exact_version',
     }->{$stopper});
 
+    no warnings 'redefine';
+    my $last_document;
+    local *App::CpanfileSlipstop::Writer::writedown_cpanfile = sub {
+        my ($self, $doc) = @_;
+        $last_document = $doc;
+    };
+
     my $writer = App::CpanfileSlipstop::Writer->new(
         cpanfile_path => test_file($name . '.cpanfile')->stringify,
     );
@@ -33,8 +37,8 @@ sub run_slipstop {
         sub {},
     );
 
-    my $doc = $spy->calls_most_recent->[1];
-    is $doc->serialize, test_file(join('.', $name, 'cpanfile', $stopper))->slurp;
+    is $last_document->serialize,
+        test_file(join('.', $name, 'cpanfile', $stopper))->slurp;
 }
 
 subtest simple => sub {
