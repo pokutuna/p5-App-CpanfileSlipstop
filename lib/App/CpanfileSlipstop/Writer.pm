@@ -45,9 +45,10 @@ sub set_versions {
             # - requires MODULE;
             # - requries MODULE, KEY => VALUE;
             $self->insert_version($module, $version_range);
+
             $logger->({
                 type   => 'insert',
-                module => $module->literal,
+                module => $module->content,
                 before => undef,
                 after  => $version_range,
                 quote  => quote($module),
@@ -60,8 +61,8 @@ sub set_versions {
             $self->replace_version($module, $current_version, $version_range);
             $logger->({
                 type   => 'replace',
-                module => $module->literal,
-                before => $current_version->literal,
+                module => $module->content,
+                before => $current_version->content,
                 after  => $version_range,
                 quote  => quote($module),
             });
@@ -146,7 +147,7 @@ sub replace_version {
 sub quote {
     my ($elem) = @_;
 
-    return $elem->isa('PPI::Token::Quote::Single') ? "'" : '"';
+    return $elem->isa('PPI::Token::Quote::Double') ? '"' : "'";
 }
 
 1;
