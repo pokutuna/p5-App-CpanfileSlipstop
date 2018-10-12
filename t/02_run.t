@@ -52,6 +52,11 @@ subtest indent => sub {
     run_slipstop('indent', 'exact');
 };
 
+subtest literals => sub {
+    run_slipstop('literals', 'minimum');
+    run_slipstop('literals', 'exact');
+};
+
 subtest phases => sub {
     run_slipstop('phases', 'minimum');
 };
